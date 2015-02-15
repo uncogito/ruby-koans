@@ -30,7 +30,44 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 # Your goal is to write the score method.
 
 def score(dice)
-  # You need to write this method
+  d_sorted = dice.sort
+  result = 0
+  throws = dice.length
+  i = 0
+
+  while i < throws do
+    if i+2 < throws and is_set(d_sorted[i], d_sorted[i+1], d_sorted[i+2])
+      result += set_score(d_sorted[i])
+      i = i+3
+    end
+
+    if i < throws 
+      result += roll_score(d_sorted[i])
+    end
+
+    i +=1
+  end
+
+  return result
+end
+
+# keeping it tidy
+def is_set(r1, r2, r3)
+  (r1 == r2) and (r2 == r3)
+end
+  
+def set_score(roll)
+  roll == 1 ? 1000 : roll * 100
+end
+
+def roll_score(roll)
+  if roll == 5
+    50
+  elsif roll == 1
+    100
+  else
+    0
+  end
 end
 
 class AboutScoringProject < Neo::Koan
